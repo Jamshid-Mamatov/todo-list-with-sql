@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+       <title>remove</title>
+</head>
+<body>
+    
+    {{content}}<br>
+    
+    {% for task in total.split("\n") %}
+        {{task}}<br>
+    {% endfor %}
+    <form action="http://127.0.0.1:5000/rem" method="POST">
+        <label>Task number:</label>
+        <input type="number" placeholder="task number"  name="remove_num" value=0 > <br>
+        <label>submit:</label>
+        <input type="submit"  value="submit">
+  
+</body>
+</html>

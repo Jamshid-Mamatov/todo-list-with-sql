@@ -13,7 +13,7 @@ class User_task(db.Model):
     state=db.Column(db.String())
     def __str__(self) -> str:
         
-        return self
+        return f"{self.id}. {self.task}   {self.state}"
 
 
 @app.route("/")
@@ -47,7 +47,30 @@ def get_add():
         
         db.session.add(task1)
         db.session.commit()
-    return "worked"
+    return "task add"
+
+
+@app.route("/remove")
+
+def remove():
+    tasks=User_task.query.all()
+    content="task remove"
+    total=""
+    for task in tasks:
+        total+=(str(task)+'\n')
+    print(total)
+    return render_template("remove.html",content=content,total=total)
+    
+@app.route("/rem",methods=["POST"])
+
+def remove_task():
+    r=request.form
+    rem_num=r.get("remove_num")
+    if rem_num!=None:
+        user=User_task.query.get(rem_num)
+        db.session.delete(user)
+        db.session.commit()
+    return "ok"
 
 
 if __name__=="__main__":
