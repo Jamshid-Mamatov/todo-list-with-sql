@@ -73,5 +73,33 @@ def remove_task():
     return "ok"
 
 
+@app.route("/update")
+def updates():
+    content="update task"
+    tasks=User_task.query.all()
+    total=""
+    for task in tasks:
+        total+=(str(task)+'\n')
+    return render_template("update.html",content=content,total=total)
+
+@app.route("/upd",methods=["POST"])
+
+def task_update():
+    r=request.form
+    task=r.get("task","")
+    number=r.get("number","")
+    state=r.get("state","")
+    user=User_task.query.get(number)
+    if task!="":
+        user.task=task
+    if state!="":
+        user.state=state
+    
+    db.session.commit()
+    return "ok"
+        
+    
+
+
 if __name__=="__main__":
     app.run(debug=True)
