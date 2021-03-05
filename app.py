@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask,render_template,request
 from flask_sqlalchemy import SQLAlchemy
 
 app=Flask(__name__)
@@ -18,18 +18,37 @@ class User_task(db.Model):
 
 @app.route("/")
 def home(): 
+    content="todo list"
+    return render_template("home.html",content=content)
 
-    return "hello"
+
+@app.route("/create")
+
+def create_list():
+
+    content="create to do list"
+    return render_template("create.html",content=content)
+
+
 
 @app.route("/add")
 def add_task():
-    task1=User_task(task="homework",state="False")
-    task2=User_task(task="work",state="False")
+    content="add task"
+    
+    return render_template("add.html",content=content)
 
-    db.session.add(task1)
-    db.session.add(task2)
-    db.session.commit()
-    return "hello world"
+@app.route("/formAdd",methods=["POST","GET"])
+def get_add():
+    r=request.form
+    task_get=r.get("task")
+    # print(task_get)
+    if task_get!=None:
+        task1=User_task(task=task_get,state="False") 
+        
+        db.session.add(task1)
+        db.session.commit()
+    return "worked"
+
 
 if __name__=="__main__":
     app.run(debug=True)
